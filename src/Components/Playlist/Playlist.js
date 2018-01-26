@@ -5,6 +5,7 @@ import './Playlist.js';
 export class Playlist extends React.Component {
 	constructor(props) {
 		super(props);
+		this.onNameChange = this.onNameChange.bind(this);
 	}
 
 	collectIds(playlistTracks) {
@@ -13,12 +14,16 @@ export class Playlist extends React.Component {
 		return playlistIds;
 	}
 
+	handleNameChange(event) {
+		this.props.onNameChange(event);
+	}
+
 	render() {
 		return (
 			<div className="Playlist">
-  				<input defaultValue="New Playlist"/>
-  				<TrackList playlistTracks={this.props.playlistTracks} />
-  				<a className="Playlist-save">SAVE TO SPOTIFY</a>
+  				<input defaultValue="New Playlist" onChange={this.handleNameChange} />
+  				<TrackList playlistTracks={this.props.playlistTracks} onRemove={this.props.onRemove} />
+  				<a className="Playlist-save" onClick={this.props.onSave}>SAVE TO SPOTIFY</a>
 			</div>
 		);
 	}
