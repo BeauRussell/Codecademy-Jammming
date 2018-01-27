@@ -1,5 +1,6 @@
 import React from 'react';
 import './Playlist.js';
+import TrackList from '../Components/TrackList/TrackList';
 
 
 export class Playlist extends React.Component {
@@ -15,7 +16,7 @@ export class Playlist extends React.Component {
 	}
 
 	handleNameChange(event) {
-		this.props.onNameChange(event);
+		this.props.onNameChange(event.target.value);
 	}
 
 	render() {

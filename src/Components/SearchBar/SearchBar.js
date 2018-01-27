@@ -15,7 +15,7 @@ export class SearchBar extends React.Component {
 	}
 
 	handleTermChange(event) {
-		this.setState({term: setState});
+		this.setState({term: event});
 	}
 
 	render() {

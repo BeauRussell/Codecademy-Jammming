@@ -10,7 +10,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchResults: [];
+			searchResults: [],
 			playlistName: 'New Playlist',
 			playlistTracks: [{name: 'Not Today', artist: 'Sevendust', album: 'Kill The Flaw'}]
 		}
@@ -21,18 +21,16 @@ class App extends React.Component {
 		this.search = this.search.bind(this);
 	}
 
-	checkIds(id, ids) {
-		const idIndex = ids.length - 1;
-		const trackId = ids[idIndex];
-		return id !== trackId;
-	}
-
 	addTrack(track) {
 		const ids = Playlist.collectIds(this.state.playlistTracks);
-		ids.push(track.id);
-		if (ids.every(checkIds(id, ids))) {
-			const newPlaylist = this.state.playlistTracks.push(track);
-			this.setState({playlistTracks: newPlaylist});
+		let newId = true;
+		for(let i = 0; i < ids.length; i++) {
+			if(ids[i] === track.id) {
+				newId = false;
+			}
+		}
+		if(newId) {
+			this.setState({playlistTracks: this.state.playlistTracks.push(track)});
 		}
 	}
 

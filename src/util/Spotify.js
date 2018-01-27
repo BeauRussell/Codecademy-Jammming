@@ -26,13 +26,13 @@ function Spotify() {
     		});
     		if (response.ok) {
      			let jsonResponse = await response.json();
-     			let tracks = jsonResponse.map(track => {
+     			let tracks = jsonResponse.map(track => ({
      				id: track.id,
      				name: track.name,
      				artist: track.artists[0].name,
      				album: track.album.name,
      				uri: track.uri
-     			});
+     			}));
      			return tracks;
    			}
   		} catch (error) {
@@ -52,7 +52,7 @@ function Spotify() {
 					method: 'POST',
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
-						Content-Type: 'application/json'
+						"Content-Type": 'application/json'
 					},
 					body: {
 						name: name
