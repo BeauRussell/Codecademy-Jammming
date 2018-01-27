@@ -3,7 +3,7 @@ import './App.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
-import Spotfiy from '../../util/Spotify.js';
+import Spotify from '../../util/Spotify.js';
 
 
 class App extends React.Component {
@@ -42,20 +42,20 @@ class App extends React.Component {
 				trackIndex = i;
 			}
 		}
-		if (trackIndex != -1) {
+		if (trackIndex !== -1) {
 			const newPlaylist = this.state.playlistTracks.splice(trackIndex, 1);
 			this.setState({playlistTracks: newPlaylist});
 		}
 	}
 
 	updatePlaylistName(name) {
-		this.setState(playlistName: name);
+		this.setState({playlistName: name});
 	}
 
 	savePlaylist() {
 		let trackURIs = [];
-		for(let i = 0; i < playlistTracks.length; i++) {
-			trackURIs.push(playlistTracks[i].uri);
+		for(let i = 0; i < this.state.playlistTracks.length; i++) {
+			trackURIs.push(this.state.playlistTracks[i].uri);
 		}
 		Spotify.savePlaylist(this.state.playlistName, trackURIs);
 		this.setState({playlistName: 'New Playlist', searchResults: []});
@@ -86,3 +86,5 @@ class App extends React.Component {
 		);
 	}
 }
+
+export default App;

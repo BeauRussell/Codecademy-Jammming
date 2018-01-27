@@ -65,11 +65,13 @@ function Spotify() {
 		}
 
 		function findUserId(headers) {
+			let id;
 			fetch('https://api.spotify.com/v1/me', {headers: headers}
 				).then(response => {return response.json()}
 				).then(jsonResponse => {
-					userId = jsonResponse[0].id;
+					id = jsonResponse[0].id;
 				});
+				return id;
 		}
 	}
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import './Playlist.js';
-import TrackList from '../Components/TrackList/TrackList';
+import TrackList from '../TrackList/TrackList.js';
 
 
 export class Playlist extends React.Component {
@@ -29,3 +29,5 @@ export class Playlist extends React.Component {
 		);
 	}
 }
+
+export default Playlist;
