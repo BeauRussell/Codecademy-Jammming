@@ -17,6 +17,7 @@ function Spotify() {
 		}
 
 		async function search(term) {
+			accessToken=getAccessToken();
   		try {
     		let response = await fetch('https://api.spotify.com/v1/search?type=track&q=${term}', {
       		method: 'GET',
@@ -44,7 +45,7 @@ function Spotify() {
 			if (name === undefined || trackURIs === undefined) {
 				return;
 			} else {
-				let userAccessToken = accessToken;
+				let userAccessToken = getAccessToken();
 				let headers = {Authorization: userAccessToken};
 				let userId = findUserId(headers);
 				let playlistID;
@@ -65,6 +66,7 @@ function Spotify() {
 		}
 
 		function findUserId(headers) {
+			accessToken = getAccessToken();
 			let id;
 			fetch('https://api.spotify.com/v1/me', {headers: headers}
 				).then(response => {return response.json()}
