@@ -10,7 +10,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchResults: [],
+			searchResults: [{name: 'The Middle', artist: 'Zedd', album: 'The Middle'}],
 			playlistName: 'New Playlist',
 			playlistTracks: [{name: 'Not Today', artist: 'Sevendust', album: 'Kill The Flaw'}]
 		}
@@ -67,7 +67,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div id="root">
   				<h1>Ja<span className="highlight">mmm</span>ing</h1>
   				<div className="App">
     				<SearchBar onSearch={this.search} />
