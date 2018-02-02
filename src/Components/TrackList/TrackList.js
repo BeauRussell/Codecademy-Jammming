@@ -4,6 +4,9 @@ import Track from '../Track/Track';
 
 
 export class TrackList extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 
 	render() {
 		return (
@@ -15,6 +18,7 @@ export class TrackList extends React.Component {
     				album={track.album}
     				onAdd={this.props.onAdd}
                     onRemove={this.props.onRemove}
+                    isRemoval={this.props.isRemoval}
     			/>
     		)}
 			</div>

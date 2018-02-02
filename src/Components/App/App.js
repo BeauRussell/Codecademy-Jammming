@@ -61,8 +61,9 @@ class App extends React.Component {
 		this.setState({playlistName: 'New Playlist', searchResults: []});
 	}
 
-	search(term) {
-		this.setState = ({searchResults: Spotify.search(term)});
+	async search(term) {
+		const results = await Spotify.search(term);
+		this.setState({searchResults: results});
 	}
 
 	render() {

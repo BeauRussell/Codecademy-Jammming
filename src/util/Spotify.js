@@ -18,7 +18,9 @@ const Spotify = {
 	},
 
 		async search(term) {
-			this.getAccessToken();
+			if(accessToken !== undefined) {
+				this.getAccessToken();
+			}
   		try {
     		let response = await fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
       		method: 'GET',
@@ -28,7 +30,7 @@ const Spotify = {
     		});
     		if (response.ok) {
      			let jsonResponse = await response.json();
-     			let tracks = jsonResponse.tracks.map(track => ({
+     			let tracks = jsonResponse.tracks.items.map(track => ({
      				id: track.id,
      				name: track.name,
      				artist: track.artists[0].name,
@@ -43,7 +45,9 @@ const Spotify = {
 		},
 
 		savePlaylist(name, trackURIs) {
-			this.getAccessToken();
+			if(accessToken !== undefined) {
+				this.getAccessToken();
+			}
 			if (name === undefined || trackURIs === undefined) {
 				return;
 			} else {
@@ -68,8 +72,9 @@ const Spotify = {
 		},
 
 		findUserId(headers) {
+			if(accessToken !== undefined) {
 				this.getAccessToken();
-			accessToken = this.getAccessToken();
+			}
 			let id;
 			fetch(`https://api.spotify.com/v1/me`, {headers: headers}
 				).then(response => {return response.json()}
