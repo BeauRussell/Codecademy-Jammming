@@ -10,9 +10,9 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchResults: [{name: 'The Middle', artist: 'Zedd', album: 'The Middle'}],
+			searchResults: [],
 			playlistName: 'New Playlist',
-			playlistTracks: [{name: 'Not Today', artist: 'Sevendust', album: 'Kill The Flaw'}]
+			playlistTracks: []
 		}
 		this.addTrack = this.addTrack.bind(this);
 		this.removeTrack = this.removeTrack.bind(this);
