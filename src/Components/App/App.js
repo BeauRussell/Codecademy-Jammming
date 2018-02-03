@@ -22,14 +22,19 @@ class App extends React.Component {
 	}
 
 	addTrack(track) {
-		const ids = Playlist.collectIds(this.state.playlistTracks);
-		let newId = true;
-		for(let i = 0; i < ids.length; i++) {
-			if(ids[i] === track.id) {
-				newId = false;
+		console.log(track);
+		if(this.state.playlistTracks.length !== 0) {
+			const ids = Playlist.collectIds(this.state.playlistTracks);
+			let newId = true;
+			for(let i = 0; i < ids.length; i++) {
+				if(ids[i] === track.id) {
+					newId = false;
+				}
 			}
-		}
-		if(newId) {
+			if(newId) {
+				this.setState({playlistTracks: this.state.playlistTracks.push(track)});
+			}
+		} else {
 			this.setState({playlistTracks: this.state.playlistTracks.push(track)});
 		}
 	}

@@ -7,6 +7,7 @@ export class Track extends React.Component {
 		super(props);
 		this.addTrack = this.addTrack.bind(this);
 		this.removeTrack = this.removeTrack.bind(this);
+		this.renderAction = this.renderAction.bind(this);
 	}
 
 	addTrack() {
@@ -29,7 +30,6 @@ export class Track extends React.Component {
 		return(
 			<div className="Track">
   				<div className="Track-information">
-  				{console.log(this.props.isRemoval)}
     				<h3>{this.props.name}</h3>
     				<p>{this.props.artist} | {this.props.album}</p>
   				</div>

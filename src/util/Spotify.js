@@ -18,7 +18,7 @@ const Spotify = {
 	},
 
 		async search(term) {
-			if(accessToken !== undefined) {
+			if(accessToken === undefined) {
 				this.getAccessToken();
 			}
   		try {
@@ -45,7 +45,7 @@ const Spotify = {
 		},
 
 		savePlaylist(name, trackURIs) {
-			if(accessToken !== undefined) {
+			if(accessToken === undefined) {
 				this.getAccessToken();
 			}
 			if (name === undefined || trackURIs === undefined) {
@@ -72,7 +72,7 @@ const Spotify = {
 		},
 
 		findUserId(headers) {
-			if(accessToken !== undefined) {
+			if(accessToken === undefined) {
 				this.getAccessToken();
 			}
 			let id;

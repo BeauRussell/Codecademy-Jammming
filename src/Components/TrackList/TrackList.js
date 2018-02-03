@@ -13,6 +13,7 @@ export class TrackList extends React.Component {
 			<div className="TrackList">
     			{this.props.tracks.map(track => <Track 
     				key={track.id}
+    				track={track}
     				name={track.name}
     				artist={track.artist}
     				album={track.album}
