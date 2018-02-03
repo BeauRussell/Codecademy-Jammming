@@ -22,9 +22,9 @@ class App extends React.Component {
 	}
 
 	addTrack(track) {
-		console.log(track);
+		let addTrack;
 		if(this.state.playlistTracks.length !== 0) {
-			const ids = Playlist.collectIds(this.state.playlistTracks);
+			const ids = this.collectIds();
 			let newId = true;
 			for(let i = 0; i < ids.length; i++) {
 				if(ids[i] === track.id) {
@@ -32,16 +32,16 @@ class App extends React.Component {
 				}
 			}
 			if(newId) {
-				this.setState({playlistTracks: this.state.playlistTracks.push(track)});
+				addTrack = (track) => this.setState({playlistTracks: [...this.state.playlistTracks, track]});
 			}
 		} else {
-			this.setState({playlistTracks: this.state.playlistTracks.push(track)});
+			addTrack = (track) => this.setState({playlistTracks: [...this.state.playlistTracks, track]});
 		}
-		console.log(this.state.playlistTracks);
+		addTrack(track);
 	}
 
 	removeTrack(track) {
-		const ids = Playlist.collectIds(this.state.playlistTracks);
+		const ids = this.collectIds();
 		let trackIndex = -1;
 		for(let i = 0; i < ids.length; i++) {
 			if (ids[i] === track.id) {
@@ -52,6 +52,12 @@ class App extends React.Component {
 			const newPlaylist = this.state.playlistTracks.splice(trackIndex, 1);
 			this.setState({playlistTracks: newPlaylist});
 		}
+	}
+
+	collectIds() {
+		let playlistIds = [];
+		this.state.playlistTracks.map(track => playlistIds.push(track.id));
+		return playlistIds;
 	}
 
 	updatePlaylistName(name) {
@@ -79,7 +85,6 @@ class App extends React.Component {
   				<div className="App">
     				<SearchBar onSearch={this.search} />
     				<div className="App-playlist">
-    				{console.log(this.state.playlistTracks)}
       					<SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
       					<Playlist 
       						playlistName={this.state.playlistName}
