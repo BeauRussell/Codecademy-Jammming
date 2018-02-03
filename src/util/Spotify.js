@@ -48,7 +48,7 @@ const Spotify = {
 			if(accessToken === undefined) {
 				this.getAccessToken();
 			}
-			if (name === undefined || trackURIs === undefined) {
+			if (name === 'New Playlist' || name === undefined || trackURIs === undefined) {
 				return;
 			} else {
 				let userAccessToken = this.getAccessToken();
