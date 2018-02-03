@@ -37,6 +37,7 @@ class App extends React.Component {
 		} else {
 			this.setState({playlistTracks: this.state.playlistTracks.push(track)});
 		}
+		console.log(this.state.playlistTracks);
 	}
 
 	removeTrack(track) {
@@ -78,6 +79,7 @@ class App extends React.Component {
   				<div className="App">
     				<SearchBar onSearch={this.search} />
     				<div className="App-playlist">
+    				{console.log(this.state.playlistTracks)}
       					<SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
       					<Playlist 
       						playlistName={this.state.playlistName}
