@@ -44,7 +44,7 @@ const Spotify = {
  			}
 		},
 
-		savePlaylist(name, trackURIs) {
+		async savePlaylist(name, trackURIs) {
 			if(accessToken === undefined) {
 				this.getAccessToken();
 			}
@@ -52,8 +52,8 @@ const Spotify = {
 				return;
 			} else {
 				let userAccessToken = this.getAccessToken();
-				let headers = {Authorization: userAccessToken};
-				let userId = this.findUserId(headers);
+				let headers = {Authorization: `Bearer ${userAccessToken}`};
+				let userId = await this.findUserId();
 				let playlistID;
 				fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
 					method: 'POST',
@@ -71,17 +71,19 @@ const Spotify = {
 			}
 		},
 
-		findUserId(headers) {
+		findUserId() {
 			if(accessToken === undefined) {
 				this.getAccessToken();
 			}
-			let id;
-			fetch(`https://api.spotify.com/v1/me`, {headers: headers}
+			let userId;
+			return fetch(`https://api.spotify.com/v1/me`, {headers: {
+				Authorization: `Bearer ${accessToken}`
+			}}
 				).then(response => {return response.json()}
 				).then(jsonResponse => {
-					id = jsonResponse[0].id;
+					userId = jsonResponse.id;
+					return userId;
 				});
-				return id;
 		}
 	};
 
