@@ -69,7 +69,6 @@ const Spotify = {
 		},
 
 		addTracks(playlistID, trackURIs, userId) {
-			console.log(trackURIs);
 			fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistID}/tracks`, {
 				method: 'POST',
 				headers: {
