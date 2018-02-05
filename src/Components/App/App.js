@@ -23,7 +23,6 @@ class App extends React.Component {
 	}
 
 	addTrack(track) {
-		let addTrack;
 		const addingTrack = (track) => this.setState({playlistTracks: [...this.state.playlistTracks, track]});
 		addingTrack(track);
 		this.removeTrack(track, false);
