@@ -12,7 +12,8 @@ class App extends React.Component {
 		this.state = {
 			searchResults: [],
 			playlistName: 'New Playlist',
-			playlistTracks: []
+			playlistTracks: [],
+			term: ''
 		}
 		this.addTrack = this.addTrack.bind(this);
 		this.removeTrack = this.removeTrack.bind(this);
@@ -23,42 +24,51 @@ class App extends React.Component {
 
 	addTrack(track) {
 		let addTrack;
-		if(this.state.playlistTracks.length !== 0) {
-			const ids = this.collectIds();
-			let newId = true;
+		const addingTrack = (track) => this.setState({playlistTracks: [...this.state.playlistTracks, track]});
+		addingTrack(track);
+		this.removeTrack(track, false);
+	}
+
+	removeTrack(track, removePlaylist) {
+		if(removePlaylist) {
+			const ids = this.collectIds(true);
+			let trackIndex = -1;
 			for(let i = 0; i < ids.length; i++) {
-				if(ids[i] === track.id) {
-					newId = false;
+				if (ids[i] === track.id) {
+					trackIndex = i;
 				}
 			}
-			if(newId) {
-				addTrack = (track) => this.setState({playlistTracks: [...this.state.playlistTracks, track]});
+			if (trackIndex !== -1) {
+				const newPlaylist = this.state.playlistTracks;
+				newPlaylist.splice(trackIndex, 1);
+				this.setState({playlistTracks: newPlaylist});
+				this.search(this.state.term);
 			}
 		} else {
-			addTrack = (track) => this.setState({playlistTracks: [...this.state.playlistTracks, track]});
-		}
-		addTrack(track);
-	}
-
-	removeTrack(track) {
-		const ids = this.collectIds();
-		let trackIndex = -1;
-		for(let i = 0; i < ids.length; i++) {
-			if (ids[i] === track.id) {
-				trackIndex = i;
+			const ids = this.collectIds(false);
+			let trackIndex = -1;
+			for(let i = 0; i < ids.length; i++) {
+				if (ids[i] === track.id) {
+					trackIndex = i;
+				}
+			}
+			if (trackIndex !== -1) {
+				const newResults = this.state.searchResults;
+				newResults.splice(trackIndex, 1);
+				this.setState({searchResults: newResults});
 			}
 		}
-		if (trackIndex !== -1) {
-			const newPlaylist = this.state.playlistTracks;
-			newPlaylist.splice(trackIndex, 1);
-			this.setState({playlistTracks: newPlaylist});
-		}
+		
 	}
 
-	collectIds() {
-		let playlistIds = [];
-		this.state.playlistTracks.map(track => playlistIds.push(track.id));
-		return playlistIds;
+	collectIds(removePlaylist) {
+		let ids = [];
+		if(removePlaylist) {
+			this.state.playlistTracks.map(track => ids.push(track.id));
+		} else {
+			this.state.searchResults.map(track => ids.push(track.id));
+		}
+		return ids;
 	}
 
 	updatePlaylistName(name) {
@@ -77,6 +87,23 @@ class App extends React.Component {
 	async search(term) {
 		const results = await Spotify.search(term);
 		this.setState({searchResults: results});
+		const resultIds = this.collectIds(false);
+		const playlistIds = this.collectIds(true);
+		let indexes = [];
+		for(let i = 0; i < resultIds.length; i++) {
+			for(let j = 0; j < playlistIds.length; j++) {
+				if (resultIds[i] === playlistIds[j]) {
+					indexes.push(i);
+				}
+			}
+		}
+		if(indexes.length > 0) {
+			for (let k = 0; k < indexes.length; k++) {
+				results.splice(indexes[k], 1);
+			}
+		}
+		this.setState({searchResults: results});
+		this.setState({term: term});
 	}
 
 	render() {
@@ -86,7 +113,7 @@ class App extends React.Component {
   				<div className="App">
     				<SearchBar onSearch={this.search} />
     				<div className="App-playlist">
-      					<SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
+      					<SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} onRemove={this.removeTrack} />
       					<Playlist 
       						playlistName={this.state.playlistName}
       						playlistTracks={this.state.playlistTracks}
