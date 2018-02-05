@@ -49,7 +49,8 @@ class App extends React.Component {
 			}
 		}
 		if (trackIndex !== -1) {
-			const newPlaylist = this.state.playlistTracks.splice(trackIndex, 1);
+			const newPlaylist = this.state.playlistTracks;
+			newPlaylist.splice(trackIndex, 1);
 			this.setState({playlistTracks: newPlaylist});
 		}
 	}
