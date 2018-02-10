@@ -32,3 +32,15 @@
   font-weight: 300;
   color: rgba(256, 256, 256, 0.8);
 }
+
+.Track-information a {
+  font-size: .5rem;
+  font-weight: 50;
+  margin-top: 7px;
+  cursor: pointer;
+  transition: color .25s;
+}
+
+.Track-information a:hover {
+  color: rgba(265, 265, 265, .5);
+}
