@@ -16,7 +16,10 @@ export class SearchBar extends React.Component {
 	}
 
 	handleTermChange(event) {
-		this.setState({term: event.target.value});
+		const inputValue = event.target.value;
+		this.setState({term: inputValue});
+		sessionStorage.setItem("inputValue", inputValue);
+		console.log(sessionStorage.getItem("inputValue"));
 	}
 
 	handleKeyPress(event) {
@@ -25,10 +28,21 @@ export class SearchBar extends React.Component {
 		}
 	}
 
+	savedValue() {
+		console.log(sessionStorage.getItem("inputValue"));
+		if (sessionStorage.getItem("inputValue") !== undefined) {
+			return sessionStorage.getItem("inputValue");
+		}
+	}
+
 	render() {
 		return(
 			<div className="SearchBar">
-  				<input placeholder="Enter A Song, Album, or Artist" onChange={this.handleTermChange} onKeyPress={this.handleKeyPress} />
+  				<input placeholder="Enter A Song, Album, or Artist"
+  				defaultValue={this.savedValue}
+  				onChange={this.handleTermChange}
+  				onKeyPress={this.handleKeyPress}
+  				/>
   				<a onClick={this.search}>SEARCH</a>
 			</div>
 		);
