@@ -12,14 +12,20 @@ export class SearchBar extends React.Component {
 	}
 
 	search() {
-		this.props.onSearch(this.state.term);
+		if (this.state.term === '') {
+			const savedTerm = sessionStorage.getItem("inputValue");
+			this.setState({term: savedTerm}, () => {
+        this.props.onSearch(this.state.term);
+       });
+		} else {
+			this.props.onSearch(this.state.term);
+		}
 	}
 
 	handleTermChange(event) {
 		const inputValue = event.target.value;
 		this.setState({term: inputValue});
 		sessionStorage.setItem("inputValue", inputValue);
-		console.log(sessionStorage.getItem("inputValue"));
 	}
 
 	handleKeyPress(event) {
@@ -29,7 +35,6 @@ export class SearchBar extends React.Component {
 	}
 
 	savedValue() {
-		console.log(sessionStorage.getItem("inputValue"));
 		if (sessionStorage.getItem("inputValue") !== undefined) {
 			return sessionStorage.getItem("inputValue");
 		}
@@ -39,7 +44,7 @@ export class SearchBar extends React.Component {
 		return(
 			<div className="SearchBar">
   				<input placeholder="Enter A Song, Album, or Artist"
-  				defaultValue={this.savedValue}
+  				value={this.savedValue()}
   				onChange={this.handleTermChange}
   				onKeyPress={this.handleKeyPress}
   				/>
