@@ -58,7 +58,7 @@ class App extends React.Component {
 				this.setState({searchResults: newResults});
 			}
 		}
-		
+		sessionStorage.setItem("playlistTracks", this.state.playlistTracks);
 	}
 
 	collectIds(removePlaylist) {
@@ -84,6 +84,7 @@ class App extends React.Component {
 		Spotify.savePlaylist(this.state.playlistName, trackURIs);
 		this.setState({playlistName: 'New Playlist', playlistTracks: []});
 		sessionStorage.removeItem("playlistTracks");
+		sessionStorage.removeItem("playlistName");
 	}
 
 	async search(term) {
@@ -108,6 +109,22 @@ class App extends React.Component {
 		this.setState({term: term});
 	}
 
+	checkTracks() {
+		if (sessionStorage.getItem("playlistTracks") !== undefined) {
+			const tracks = sessionStorage.getItem("playlistTracks");
+			this.setState({playlistTracks: tracks});
+		}
+		return this.state.playlistTracks;
+	}
+
+	checkPlaylistName() {
+		const savedName = sessionStorage.getItem("playlistName");
+		if (savedName !== undefined) {
+			this.setState(playlistName: savedName);
+		}
+		return this.state.playlistName;
+	}
+
 	render() {
 		return (
 			<div id="root">
@@ -116,9 +133,10 @@ class App extends React.Component {
     				<SearchBar onSearch={this.search} />
     				<div className="App-playlist">
       					<SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} onRemove={this.removeTrack} />
+      					{console.log(this.checkTracks())}
       					<Playlist 
-      						playlistName={this.state.playlistName}
-      						playlistTracks={this.state.playlistTracks}
+      						playlistName={this.checkName()}
+      						playlistTracks={this.checkTracks()}
       						onRemove={this.removeTrack}
       						onNameChange={this.updatePlaylistName}
       						onSave={this.savePlaylist}
